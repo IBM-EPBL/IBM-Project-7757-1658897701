@@ -1,0 +1,141 @@
+
+<html>
+    <title>Water Quality Analysis</title>
+<body>
+<h1>Water Quality Prediction</h1>
+</div>
+</div>
+<div class="col-md-7 col-md-offset-1">
+<div class="booking-form">
+<form action={{ url_for("predict") }} method="post">
+<div class="row">
+<div class="col-md-4">
+<div class="form-group">
+<span class="form-label">D.O. (mg/l)</span>
+<input type="text" class="form-control" name="ph" placeholder="Enter value" required="true">
+<span class="select-arrow"></span>
+</div>
+<br>
+<br>
+</div>
+<!Year>
+<div class="col-md-4">
+<div class="form-group">
+<span class="form-label">CONDUCTIVITY (µmhos/cm) </span>
+<input type="text" class="form-control" name="Hardness" placeholder="Enter value" required="true">
+<span class="select-arrow"></span>
+</div>
+</div>
+<br>
+<br>
+<!Month>
+<div class="col-md-4">
+<div class="form-group">
+<span class="form-label">B.O.D. (mg/l)</span>
+<input type="text" class="form-control" name="Solids" placeholder="Enter value" required="true">
+<span class="select-arrow"></span>
+</div>
+</div>
+<br>
+<br>
+<! Date>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group">
+<span class="form-label">NITRATENAN N+ NITRITENANN (mg/l)</span>
+<input type="text" class="form-control" name="Chloramines" placeholder="Enter value" required="true">
+<span class="select-arrow"></span>
+</div>
+</div>
+<br>
+<br>
+<!Year>
+<div class="col-md-4">
+<div class="form-group">
+<span class="form-label">FECAL COLIFORM (MPN/100ml)</span>
+<input type="text" class="form-control" name="Sulfate" placeholder="Enter value" required="true">
+<span class="select-arrow"></span>
+</div>
+</div>
+<br>
+<br>
+<!Month>
+<div class="col-md-4">
+<div class="form-group">
+<span class="form-label">TOTAL COLIFORM (MPN/100ml)Mean</span>
+<input type="text" class="form-control" name="Conductivity" placeholder="Enter value" required="true">
+<span class="select-arrow"></span>
+</div>
+</div>
+<br>
+<br>
+<!--Year,Month,Date end-->
+<div class="form-btn">
+<button class="submit-btn">Predict</button>
+</div>
+<!--
+<!Button>
+{% if prediction_text == 0 %}
+<h2 >" Not Potable, the water can't be drink "</h2>
+{% elif prediction_text == 1 %}
+<h2 >" Potable, the water can be drink "</h2>
+{% endif %}
+</center>
+</form>
+</div>
+<!Booking form>
+
+-->
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</p>
+</body>
+</html>
+
+
+<!--
+
+APP.PY:
+from flask import Flask, render_template, request
+import requests
+import requests
+# NOTE: you must manually set API_KEY below using information retrieved from your IBM Cloud account.
+import requests
+# NOTE: you must manually set API_KEY below using information retrieved from your IBM Cloud account.
+API_KEY = "nFFWACn7pVNTQWlnb7pusoXVa63g0vFEq_8Y2x2pxZSE"
+token_response = requests.post('https://iam.cloud.ibm.com/identity/token', data={"apikey":
+API_KEY, "grant_type": 'urn:ibm:params:oauth:grant-type:apikey'})
+mltoken = token_response.json()["access_token"]
+header = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + mltoken}
+app = Flask(__name__)
+@app.route('/')
+def index():
+return render_template('water1.html')
+@app.route('/predict', methods = ['POST'])
+def predict():
+ph = request.form['D.O. (mg/l)']
+Hardness = request.form['CONDUCTIVITY (µmhos/cm)']
+Solids = request.form['B.O.D. (mg/l)']
+Chloramines = request.form['NITRATENAN N+ NITRITENANN (mg/l)']
+Sulfate = request.form['FECAL COLIFORM (MPN/100ml)']
+Conductivity = request.form['TOTAL COLIFORM (MPN/100ml)Mean']
+t = [[float(D.O. (mg/l)),float(CONDUCTIVITY (µmhos/cm)),int(B.O.D. (mg/l)),float(NITRATENAN N+ NITRITENANN (mg/l)),float(FECAL COLIFORM (MPN/100ml)),float(TOTAL COLIFORM (MPN/100ml)Mean)]]
+payload_scoring = {"input_data": [{"fields": [["f0","f1","f2","f3","f4","f5","f6","f7","f8","f9","f10","f11","f12","f13","f14"]], "values":t }]}
+response_scoring = requests.post('https://us-south.ml.cloud.ibm.com/ml/v4/deployments/94d69d4c-4e12-4662-aba9-fe193faa3d90/predictions?version=2022-11-07', json=payload_scoring,
+headers={'Authorization': 'Bearer ' + mltoken})
+print("Scoring response")
+payload_scoring = {"input_data": [{"fields": [["f0","f1","f2","f3","f4","f5","f6"]], "values":t }]}
+pred= response_scoring.json()
+output=pred['predictions'][0]['values'][0][0]
+print(output)
+return render_template("water1.html", prediction_text = output)
+if __name__=='__main__':
+app.run(debug = False)
+
+
+-->
